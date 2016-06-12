@@ -11,10 +11,10 @@
 # 'ly'= lightyear
 
 def convert(input_value,units_in='',units_out=''):
-    glu_dict = {'km':0.0001,
-                'm':0.000001,
-                'au':15000,
-                'ly':948616500}
+    glu_dict = {'km':1,
+                'm':0.001,
+                'au':15000000,
+                'ly':948616500000}
     o = glu_dict[units_in]/glu_dict[units_out]
 
     return o, str(o,units_out)
