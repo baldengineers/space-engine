@@ -1,4 +1,15 @@
-def main(m1,m2,d,oa1,oa2):
+#contains the functions needed to simulate gravity and orbit of two masses
+
+def translate(cl,direction,vel,oa):
+    #cl = object class
+    #direction = direction of object (in degrees)
+    #vel = velocity of object due to gravity
+    #oa = original acceleration before being affected by gravity    
+    
+    
+def main(class1,class2,m1,m2,d,oa1,oa2,dir1,dir2):
+    #class1 = class of 1st object
+    #class2 = class of 2nd object
     #f = force of gravity
     #g = gravitational constant
     #m1 = mass of more massive object
@@ -8,6 +19,8 @@ def main(m1,m2,d,oa1,oa2):
     #a2 = acceleration of 2nd object
     #oa1 = original acceleration of 1st object
     #oa2 = original acceleration of 2nd object
+    #dir1 = direction of acceleration of 1st object (in degs)
+    #dir2 = direction of acceleration of 2nd object (in degs)
     
     g = 6.673*(10**-11)
     f = (g*m1*m2/d**2)
@@ -19,20 +32,33 @@ def main(m1,m2,d,oa1,oa2):
 
     print("acceleration of larger object:%d\nsmaller object:%d" %(a1,a2))
 
+    #vel 2 = velocity of ship(camera)
+    vel1 = 0
+    vel2 = 0
+
     #TODO: write something using the oa2 to offset the acceleration into
     #      the planet.
 
     while True: # some testing
+        vel1 += a1
+        vel2 += a2
+
+        translate(class1,dir1,vel1,oa1)
+
+        #glTranslatef()
         #accelerate position of the ship towards the core of the planet
         #accelerate position of the ship due to its own acceleration
         #ship could either be pulled into orbit or crash into planet or slingshot away
         pass
 
-    
+
 
 if __name__ == '__main__':
     #mass is in kg
     #distance is in km
+
+    from OpenGL.GL import *
+    from OpenGL.GLU import *
 
     mass1 = 5.98*(10**24)
     mass2 = 68
