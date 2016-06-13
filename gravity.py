@@ -1,11 +1,20 @@
 #contains the functions needed to simulate gravity and orbit of two masses
 
-def translate(cl,dir_facing,vel,oa):
+def translate(cl,dir_facing,vel,oa,vector):
     #cl = object class
     #direction = direction of acceleration of object (in degrees)
     #vel = velocity of object due to gravity
-    #oa = original acceleration before being affected by gravity    
-    cl.update_pos(())
+    #oa = original acceleration before being affected by gravity
+    #vector = vector to travel on
+
+    #normalize the vector
+    hyp = (x**2+y**2+z**2)**.5
+    for item in vector:
+        item /= hyp
+        item *= vel
+
+    
+    cl.update_pos(vector)
     
         
 def main(class1,class2,m1,m2,d,oa1,oa2,dir1,dir2):
@@ -39,21 +48,24 @@ def main(class1,class2,m1,m2,d,oa1,oa2,dir1,dir2):
 
     #TODO: write something using the oa2 to offset the acceleration into
     #      the planet.
-
-    #the following vars are to determine a vector with which to travel on when being pulled by gravity
-    x1 = class2.x - class1.x
-    y1 = class2.y - class1.y
-    z1 = class2.z - class1.z
-    
-    x2 = class1.x - class2.x
-    y2 = class1.y - class2.y
-    z2 = class1.z - class2.z
     
     while True: # some testing
         vel1 += a1
         vel2 += a2
 
-        translate(class1,dir1,vel1,oa1)
+        #the following tuples determine vector with which to travel on when being pulled by gravity
+        vector1 = ()
+        vector1[0] = class2.x - class1.x
+        vector1[1] = class2.y - class1.y
+        vector1[2] = class2.z - class1.z
+
+        vector2 = ()
+        vector2[0] = class1.x - class2.x
+        vector2[1] = class1.y - class2.y
+        vector2[2] = class1.z - class2.z
+
+        translate(class1,dir1,vel1,oa1,vector1)
+        translate(class2,dir2,vel2,oa2,vector2)
 
         #glTranslatef()
         #accelerate position of the ship towards the core of the planet

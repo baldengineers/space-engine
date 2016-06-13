@@ -15,4 +15,7 @@ class Camera():
         glRotatef(direction, 1 if 'x' in axis else 0, 1 if 'y' in axis else 0, 1 if 'z' in axis)
         
     def update_pos(self, amount)
+        self.x += amount[0]
+        self.y += amount[1]
+        self.z += amount[2]
         glTranslate(amount[0], amount[1], amount[2])
