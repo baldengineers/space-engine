@@ -1,41 +1,64 @@
 import pygame
+import random
 from pygame.locals import *
 
 from OpenGL.GL import *
 from OpenGL.GLU import *
 
-verticies = (
+vertices = (
     (1, -1, -1),
     (1, 1, -1),
     (-1, 1, -1),
     (-1, -1, -1),
     (1, -1, 1),
     (1, 1, 1),
-    (-1, -1, 1),
-    (-1, 1, 1)
+    (-1, 1, 1),
+    (-1, -1, 1)
     )
 
+tri = (
+    (0,1,2),
+    (0,3,2),
+    (0,4,5),
+    (0,1,5),
+    (0,4,7),
+    (0,3,7),
+    (6,2,1),
+    (6,5,1),
+    (6,2,3),
+    (6,7,3),
+    (6,7,4),
+    (6,5,4)
+    )
 edges = (
     (0,1),
     (0,3),
     (0,4),
     (2,1),
     (2,3),
-    (2,7),
-    (6,3),
-    (6,4),
+    (2,6),
+    (7,3),
+    (7,4),
     (6,7),
     (5,1),
     (5,4),
-    (5,7)
+    (5,6)
     )
+    
+
+clrs = [(0,1,0),(1,0,0),(0,0,1),(1,1,0),(1,0,1),(0,1,1),(1,1,1),(0,0,0)]
 
 
 def Cube():
     glBegin(GL_LINES)
     for edge in edges:
+##        glColor(clrs[random.randint(0,7)])
+##        glVertex3fv(vertices[edge[0]])
+##        glVertex3fv(vertices[edge[1]])
+##        glVertex3fv(vertices[edge[2]])
         for vertex in edge:
-            glVertex3fv(verticies[vertex])
+            
+            glVertex3fv(vertices[vertex])
     glEnd()
 
 
