@@ -12,4 +12,7 @@ class Camera():
         
     def update_dir(self, direction, axis):
         #vector can be 'x', 'y', 'z', 'xy', 'xz', etc.
-        glTranslatef(direction, 1 if 'x' in axis else 0, 1 if 'y' in axis else 0, 1 if 'z' in axis)
+        glRotatef(direction, 1 if 'x' in axis else 0, 1 if 'y' in axis else 0, 1 if 'z' in axis)
+        
+    def update_pos(self, amount)
+        glTranslate(amount[0], amount[1], amount[2])
