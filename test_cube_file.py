@@ -49,16 +49,14 @@ edges = (
 clrs = [(0,1,0),(1,0,0),(0,0,1),(1,1,0),(1,0,1),(0,1,1),(1,1,1),(0,0,0)]
 
 
-def Cube():
-    glBegin(GL_LINES)
-    for edge in edges:
-##        glColor(clrs[random.randint(0,7)])
-##        glVertex3fv(vertices[edge[0]])
-##        glVertex3fv(vertices[edge[1]])
-##        glVertex3fv(vertices[edge[2]])
-        for vertex in edge:
-            
-            glVertex3fv(vertices[vertex])
+def Cube(r):
+    glBegin(GL_TRIANGLES) #we could do quads, i just already have triangle info
+                          #because of mass calculations
+
+    for edge in tri:
+        glVertex3fv(vertices[edge[0]])
+        glVertex3fv(vertices[edge[1]])
+        glVertex3fv(vertices[edge[2]])
     glEnd()
 
 
@@ -68,20 +66,58 @@ def main():
     pygame.display.set_mode(display, DOUBLEBUF|OPENGL)
 
     gluPerspective(45, (display[0]/display[1]), 0.1, 50.0)
+    glMaterial(GL_FRONT, GL_AMBIENT, (0.1, 0.1, 0.1, 1.0))    
+    glMaterial(GL_FRONT, GL_DIFFUSE, (1.0, 1.0, 1.0, 1.0))
+    glTranslate(0,0,-40)
 
-    glTranslatef(0.0,0.0, -5)
+    glEnable(GL_DEPTH_TEST)
+    
+    glShadeModel(GL_FLAT)
+    glClearColor(1.0, 1.0, 1.0, 0.0)
 
-    while True:
+    glEnable(GL_COLOR_MATERIAL)
+    
+    glEnable(GL_LIGHTING)
+    glEnable(GL_LIGHT0)        
+    glLightfv(GL_LIGHT0, GL_POSITION,  (10, 10, 10))
+
+    crash = False
+
+    while not crash:
+        r = (0,0,1,0)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit()
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_LEFT]:
+            glTranslatef(0.1,0,0)
+        if keys[pygame.K_RIGHT]:
+            glTranslatef(-0.1,0,0)
+        if keys[pygame.K_UP]:
+            glTranslatef(0,0,0.1)
+        if keys[pygame.K_DOWN]:
+            glTranslatef(0,0,-0.1)
+        if keys[pygame.K_r]:
+            r = (10,0,1,0)
 
-        glRotatef(1, 3, 1, 1)
+        x = glGetDoublev(GL_MODELVIEW_MATRIX)
+        #print(x)
+
+        camera_x=x[3][0]
+        camera_y=x[3][1]
+        camera_z=x[3][2]
+
+        if camera_z < -1:
+            crash = True
+        
         glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
-        Cube()
+        glTranslatef(0,0,0.2)
+        Cube(r)
         pygame.display.flip()
         pygame.time.wait(10)
 
-
-main()
+for i in range(10):
+    main()
+pygame.quit()
+quit()
