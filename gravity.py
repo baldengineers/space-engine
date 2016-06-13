@@ -14,7 +14,7 @@ def translate(cl,dir_facing,vel,oa,vector):
         item *= vel
 
     
-    cl.update_pos(vector)
+    cl.accelerate(vector)
     
         
 def main(class1,class2,m1,m2,d,oa1,oa2,dir1,dir2):

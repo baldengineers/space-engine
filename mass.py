@@ -8,9 +8,9 @@ def calculateMass(vertices, triangles, DENSITY=''):
     #life supporting, ice, etc. We can research densities
     #accordingly.
 
-    #for now, density = 1
+    #for now, density = 5.514e+12 kg/km^3, which is earth's density
 
-    DENSITY = 1
+    DENSITY = 5.514*(10**12)
 
    
     totalVolume = 0
