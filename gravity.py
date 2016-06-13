@@ -13,8 +13,11 @@ def translate(cl,dir_facing,vel,oa,vector):
         item /= hyp
         item *= vel
 
+    #to find average of two vectors: add up each of the values and divide by 2
+    #v3.x = (v1.x + v2.x)/2
+
     
-    cl.accelerate(vector)
+    cl.update_pos(vector)
     
         
 def main(class1,class2,m1,m2,d,oa1,oa2,dir1,dir2):
