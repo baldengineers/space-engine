@@ -8,8 +8,9 @@ class Camera():
 
         #self.acceleration = acceleration
         #do we need acceleration?
+        self.acceleration=[0,0,0]
         self.direction = (0,0,-1.0) #direction camera is looking, this is the default
-        self.velocity = (self.x,self.y,self.z) #it is moving 0 units per second in all axes. direction (and speed) camera is moving
+        self.velocity = [self.x,self.y,self.z] #it is moving 0 units per second in all axes. direction (and speed) camera is moving
         
     def update_dir(self, direction, axis):
         #vector can be 'x', 'y', 'z', 'xy', 'xz', etc.
@@ -22,20 +23,26 @@ class Camera():
         return self.direction
     
     def get_velocity(self):
-        return velocity
+        return self.velocity
+    
+    def update_accleration(self,acc):
+        for index,i in enumerate(acc):
+            self.acceleration[index]=i    
         
-##    def update_pos(self, amount)
-##        self.x += amount[0]
-##        self.y += amount[1]
-##        self.z += amount[2]
-##        velocity[0]+=amount[0]
-##        velocity[1]+=amount[1]
-##        velocity[2]+=amount[2]
-    def accelerate(self,amount):
-        velocity[0]+=amount[0]
-        velocity[1]+=amount[1]
-        velocity[2]+=amount[2]
+    def accelerate(self, amount)
+        self.x += amount[0]
+        self.y += amount[1]
+        self.z += amount[2]
+        self.velocity[0]+=amount[0]
+        self.velocity[1]+=amount[1]
+        self.velocity[2]+=amount[2]
+
         
     def move(self):
         #done every tick
-        glTransformf(velocity)
+        #this moves everything. other classes will
+        #pop a matrix and use the matrix of that
+        #class. it is negative because everything
+        #else is moving
+        self.accelerate(self.acceleration)
+        glTranslatef(-self.velocity[0],-self.velocity[1],-self.velocity[2])
