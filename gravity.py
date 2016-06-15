@@ -8,7 +8,7 @@ def translate(cl,dir_facing,vel,oa,vector):
     #vector = vector to travel on
 
     #normalize the vector
-    hyp = (x**2+y**2+z**2)**.5
+    hyp = find_hyp(vector)
     for item in vector:
         item /= hyp
         item *= vel
@@ -16,30 +16,37 @@ def translate(cl,dir_facing,vel,oa,vector):
     #to find average of two vectors: add up each of the values and divide by 2
     #v3.x = (v1.x + v2.x)/2
 
+    #detect when the vector is longer than the prev vector, and the ao is the same,
+    #rotate the camera so it can stay in orbit
+
     
     cl.accelerate(vector)
-    
-        
-def main(class1,class2,m1,m2,d,oa1,oa2,dir1,dir2):
+
+    return hyp
+
+def find_hyp(vector):
+    return (vector[0]**2+vector[1]**2+vector[2]**2)**.5
+         
+def main(class1,class2,m1,m2,dist,oa1,oa2,dir1,dir2):
     #class1 = class of 1st object
     #class2 = class of 2nd object
-    #f = force of gravity
-    #g = gravitational constant
     #m1 = mass of more massive object
     #m2 = mass of smaller object
-    #d = distance between two masses
-    #a1 = acceleration of 1st object
-    #a2 = acceleration of 2nd object
+    #dist = distance between the centers of the two masses
     #oa1 = original acceleration of 1st object
     #oa2 = original acceleration of 2nd object
     #dir1 = direction of acceleration of 1st object (in degs)
     #dir2 = direction of acceleration of 2nd object (in degs)
-    
+
+    #g = gravitational constant
+    #f = force of gravity
     g = 6.673*(10**-11)
-    f = (g*m1*m2/d**2)
+    f = (g*m1*m2/dist**2)
     print("%.4f Newtons" %(f))
     
     #acceleration of objects toward each other in m/s^2
+    #a1 = acceleration of 1st object
+    #a2 = acceleration of 2nd object
     a1 = f/m1
     a2 = f/m2
 
@@ -67,8 +74,16 @@ def main(class1,class2,m1,m2,d,oa1,oa2,dir1,dir2):
         vector2[1] = class1.y - class2.y
         vector2[2] = class1.z - class2.z
 
-        translate(class1,dir1,vel1,oa1,vector1)
-        translate(class2,dir2,vel2,oa2,vector2)
+        if find_hyp(vector1) > vector1_len:
+            #class1.update_rot()
+            pass
+
+        if find_hyp(vector2) > vector2_len:
+            #class1.update_rot()
+            pass
+
+        vector1_len = translate(class1,dir1,vel1,oa1,vector1)
+        vector2_len = translate(class2,dir2,vel2,oa2,vector2)
 
         #glTranslatef()
         #accelerate position of the ship towards the core of the planet

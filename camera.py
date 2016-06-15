@@ -5,11 +5,9 @@ class Camera():
         self.x = x
         self.y = y
         self.z = z
-
-        #self.acceleration = acceleration
-        #do we need acceleration?
         self.acceleration=[0,0,0]
         self.direction = (0,0,-1.0) #direction camera is looking, this is the default
+        #uhhh, what I meant self.direction to be was the DEGREE measure of the direction
         self.velocity = [self.x,self.y,self.z] #it is moving 0 units per second in all axes. direction (and speed) camera is moving
         
     def update_dir(self, direction, axis):
